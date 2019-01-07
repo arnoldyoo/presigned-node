@@ -25,22 +25,21 @@ const AWS = require('aws-sdk');
 AWS.config.region = 'ap-northeast-2';
 const s3 = new AWS.S3({
     accessKeyId : '', 
-    secretAccessKey : '', 
-    useAccelerateEndpoint: true
+    secretAccessKey : ''
   });
 
 
 app.get('/get-presigned-url', function(req,res) {
   const signedUrlExpireSeconds = 60 * 60;
   const myBucket = 'arnold-file-bucket';
-  const myKey = 'worldmap';
+  const myKey = 'testapp.apk';
   const params = {
     Bucket: myBucket,
-    Key: myKey, 
-    Expires: signedUrlExpireSeconds, 
+    Key: myKey,
+    Expires: signedUrlExpireSeconds,
     ACL: 'public-read', 
-    ContentType:'image/jpeg'};
-
+    ContentType:'multipart/form-data'};
+  //application/vnd.android.package-archive
   s3.getSignedUrl('putObject', params, function (err, url){
     console.log(url);
     if (err){
